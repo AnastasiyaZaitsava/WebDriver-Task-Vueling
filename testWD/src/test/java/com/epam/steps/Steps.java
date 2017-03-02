@@ -1,5 +1,6 @@
 package com.epam.steps;
 
+import com.epam.pages.VuelingContactPassengerPage;
 import com.epam.pages.VuelingMainPage;
 import com.epam.util.DriverSingleton;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +10,11 @@ import org.openqa.selenium.WebDriver;
  */
 public class Steps {
     private WebDriver driver;
+
+    public WebDriver getDriver()
+    {
+        return this.driver;
+    }
 
     public void initBrowser()
     {
@@ -29,6 +35,13 @@ public class Steps {
     public boolean isLoginToVueling () {
         VuelingMainPage vuelingMainPage = new VuelingMainPage(driver);
         return vuelingMainPage.checkIsLogin().contains("Hi");
+    }
+
+    public void fillPassengerInformation()
+    {
+        VuelingContactPassengerPage vcpp = new VuelingContactPassengerPage(driver);
+        // где будут храниться данные для ввода?
+        vcpp.enterAndSubmitPassengerContact("John", "Smith", "Minsk", "456783", "johnsmith@gmail.com", "BY", "+375");
     }
 
 

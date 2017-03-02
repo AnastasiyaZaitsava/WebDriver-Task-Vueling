@@ -1,6 +1,8 @@
 package com.epam;
 
+import com.epam.pages.VuelingContactPassengerPage;
 import com.epam.steps.Steps;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.annotations.AfterMethod;
@@ -27,6 +29,15 @@ public class TestWD
         {
             steps.loginToVueling(USERNAME, PASSWORD);
             Assert.assertTrue(steps.isLoginToVueling());
+        }
+
+        @Test
+        public void fillPassengerInformation(){
+            WebDriver driver = steps.getDriver();
+            VuelingContactPassengerPage vcpp = new VuelingContactPassengerPage(driver);
+            vcpp.openPage();
+            Assert.assertTrue(vcpp.isPageOpened());
+            vcpp.enterAndSubmitPassengerContact("John", "Smith", "Minsk", "456783", "johnsmith@gmail.com", "BY", "+375");
         }
 
         @AfterMethod(description = "Stop Browser")
