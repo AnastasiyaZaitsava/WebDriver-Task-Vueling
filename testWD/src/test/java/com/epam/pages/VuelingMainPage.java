@@ -26,14 +26,17 @@ public class VuelingMainPage extends VuelingAbstractPage {
     @FindBy(id = "openAccountButton")
     private WebElement buttonForLogin;
 
-    @FindBy(id = "ControlGroupMainContact_MemberLoginAndRegisterAboveContactView_TextBoxRegisterEmailLabel")
+    @FindBy(id = "ControlGroupMainContact_MemberLoginAndRegisterAboveContactView_TextBoxRegisterEmail")
     private WebElement fieldUserNameForLogin;
 
-    @FindBy(id = "ControlGroupMainContact_MemberLoginAndRegisterAboveContactView_TextBoxRegisterPasswordLabel")
+    @FindBy(id = "ControlGroupMainContact_MemberLoginAndRegisterAboveContactView_TextBoxRegisterPassword")
     private WebElement fieldPasswordForLogin;
 
     @FindBy(xpath = "//span[@id='btnEnvContacto']/span[@class='bt_link']")
     private WebElement buttonLogin;
+
+    @FindBy(xpath = "//*[contains(@class, 'header_navBarUser_account_nick')]")
+    private WebElement fieldForCheckIsLogin;
 
     @FindBy(xpath = "//span[text() = 'Return']")
     private WebElement buttonReturn;
@@ -74,10 +77,29 @@ public class VuelingMainPage extends VuelingAbstractPage {
     @FindBy(xpath = ".//*[@id='stationsList']/ul/li/a")
     private WebElement clickOnNeedCity;
 
+    @FindBy(id = "datePickerTitleCloseButton")
+    private WebElement buttonCloseSchedule;
+
+
 //    @FindBy(id = "centralReservas")
 //    private WebElement chooseCustomerServices;
 
-    public HashMap <String, String> arrayCountryWithPhone () {
+
+    public void login ( String login, String psw) {
+        buttonForLogin.click();
+        fieldUserNameForLogin.clear();
+        fieldUserNameForLogin.sendKeys(login);
+        fieldPasswordForLogin.clear();
+        fieldPasswordForLogin.sendKeys(psw);
+        buttonLogin.click();
+
+    }
+
+    public String checkIsLogin () {
+        return fieldForCheckIsLogin.getText();
+    }
+
+    public HashMap <String, String> arrayCountryWithPhoneService () {
         chooseTicketSales.click();
         List<WebElement> elements = driver.findElements(By.xpath(".//*[@id='centralBilletes']/option"));
         for (int i = 0; i < elements.size(); i++) {
@@ -85,7 +107,6 @@ public class VuelingMainPage extends VuelingAbstractPage {
             elements.get(i).click();
             String phone = driver.findElement(By.id("footerPhoneNumberBilletes")).getText();
             arrayPhone.put(country, phone);
-            //System.out.println(country + " " + phone);
         }
         return getArrayPhone();
     }
@@ -98,9 +119,12 @@ public class VuelingMainPage extends VuelingAbstractPage {
         fieldToFlight.click();
         fieldToFlight.sendKeys(to);
         clickOnNeedCity.click();
-
+        //добавить выбор дат
 
     }
+
+
+
 
 
     public VuelingMainPage(WebDriver driver)
