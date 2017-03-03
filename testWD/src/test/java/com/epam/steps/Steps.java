@@ -1,6 +1,9 @@
 package com.epam.steps;
 
+<<<<<<< HEAD
 import com.epam.util.User;
+=======
+>>>>>>> origin/master
 import com.epam.pages.VuelingContactPassengerPage;
 import com.epam.pages.VuelingMainPage;
 import com.epam.pages.VuelingScheduleSelectPage;
@@ -10,6 +13,11 @@ import org.openqa.selenium.WebDriver;
 
 public class Steps {
     private WebDriver driver;
+
+    public WebDriver getDriver()
+    {
+        return this.driver;
+    }
 
     public void initBrowser()
     {
@@ -34,6 +42,7 @@ public class Steps {
         return vuelingMainPage.checkIsLogin().contains("Hi");
     }
 
+<<<<<<< HEAD
     public void fillPassengerInformation(String from, String to, User user)
     {
         VuelingContactPassengerPage vuelingContactPassengerPage = new VuelingContactPassengerPage(driver);
@@ -66,6 +75,15 @@ public class Steps {
             return false;
         }
     }
+=======
+    public void fillPassengerInformation()
+    {
+        VuelingContactPassengerPage vcpp = new VuelingContactPassengerPage(driver);
+        // где будут храниться данные для ввода?
+        vcpp.enterAndSubmitPassengerContact("John", "Smith", "Minsk", "456783", "johnsmith@gmail.com", "BY", "+375");
+    }
+
+>>>>>>> origin/master
 
     public boolean isFillInfoCorrect (String from, String to, User user) {
         VuelingContactPassengerPage vuelingContactPassengerPage = new VuelingContactPassengerPage(driver);

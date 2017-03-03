@@ -1,7 +1,12 @@
 package com.epam;
 
+<<<<<<< HEAD
 import com.epam.util.User;
+=======
+import com.epam.pages.VuelingContactPassengerPage;
+>>>>>>> origin/master
 import com.epam.steps.Steps;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -30,6 +35,7 @@ public class TestWD
         }
 
         @Test
+<<<<<<< HEAD
         public void twoCanChooseServiceCenter ()
         {
             Assert.assertTrue(steps.isChangeContactInfo(USERCOUNTRY));
@@ -50,6 +56,17 @@ public class TestWD
 
 
         @AfterTest(description = "Stop Browser")
+=======
+        public void fillPassengerInformation(){
+            WebDriver driver = steps.getDriver();
+            VuelingContactPassengerPage vcpp = new VuelingContactPassengerPage(driver);
+            vcpp.openPage();
+            Assert.assertTrue(vcpp.isPageOpened());
+            vcpp.enterAndSubmitPassengerContact("John", "Smith", "Minsk", "456783", "johnsmith@gmail.com", "BY", "+375");
+        }
+
+        @AfterMethod(description = "Stop Browser")
+>>>>>>> origin/master
         public void stopBrowser()
         {
             steps.closeDriver();
