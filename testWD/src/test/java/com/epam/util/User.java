@@ -1,8 +1,9 @@
 package com.epam.util;
 
 
-public enum  User {
-    USER1 ("John", "Smith", "Minsk", "456783", "johnsmith@gmail.com", "BY", "+375");
+public enum User {
+
+    USER1("John", "Smith", "Minsk", "456783", "johnsmith@gmail.com", "BY", "+375");
 
     private final String name;
     private final String surname;
@@ -12,8 +13,7 @@ public enum  User {
     private final String countryCode;
     private final String countryPhonePrefix;
 
-     User(String name, String surname, String city, String phone, String email, String countryCode, String countryPhonePrefix)
-     {
+    User(String name, String surname, String city, String phone, String email, String countryCode, String countryPhonePrefix) {
         this.name = name;
         this.surname = surname;
         this.city = city;
@@ -23,38 +23,31 @@ public enum  User {
         this.countryPhonePrefix = countryPhonePrefix;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public String getSurname()
-    {
+    public String getSurname() {
         return surname;
     }
 
-    public String getCity()
-    {
+    public String getCity() {
         return city;
     }
 
-    public String getPhone()
-    {
+    public String getPhone() {
         return phone;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public String getCountryCode()
-    {
+    public String getCountryCode() {
         return countryCode;
     }
 
-    public String getCountryPhonePrefix()
-    {
+    public String getCountryPhonePrefix() {
         return countryPhonePrefix;
     }
 
