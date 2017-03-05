@@ -33,7 +33,9 @@ public class VuelingScheduleSelectPage extends VuelingAbstractPage {
 
     @FindBy(id = "ControlGroupScheduleSelectView_AvailabilityInputScheduleSelectView_LinkButtonSubmit")
     private WebElement continueButton;
-
+    
+    @FindBy(id="SBSidebarView_totalPriceSpan")
+    private WebElement priceSpan;
 
     public VuelingScheduleSelectPage(WebDriver driver) {
         super(driver);
@@ -55,6 +57,16 @@ public class VuelingScheduleSelectPage extends VuelingAbstractPage {
         } else {
             return false;
         }
+    }
+    
+    public double getPrice(WebElement element){
+    	String labelID = element.getAttribute("id");
+    	String tag = element.getTagName();
+    	String price1 = driver.findElement(By.xpath("//"+ tag +"[@id='"+labelID+"']/span")).getText();
+    	price1.replace('.', ',');
+    	String price2 = driver.findElement(By.xpath("//label[@id='"+labelID+"']/span/sup")).getText();
+    	double price = Double.parseDouble(price1 + price2);
+    	return price;
     }
 }
 
