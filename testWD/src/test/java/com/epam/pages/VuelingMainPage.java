@@ -42,10 +42,10 @@ public class VuelingMainPage extends VuelingAbstractPage {
     @FindBy(xpath = "//span[text() = 'Multiple destinations']")
     private WebElement buttonMultipleDestinations;
 
-    @FindBy(xpath = "//input[@id='AvailabilitySearchInputXmlSearchView_TextBoxMarketOrigin1']")
+    @FindBy(name = "AvailabilitySearchInputXmlSearchView$TextBoxMarketOrigin1")
     private WebElement fieldFromFlight;
 
-    @FindBy(xpath = "//input[@id='AvailabilitySearchInputXmlSearchView_TextBoxMarketDestination1']")
+    @FindBy(name = "AvailabilitySearchInputXmlSearchView$TextBoxMarketDestination1")
     private WebElement fieldToFlight;
 
     @FindBy(id = "marketDate1_lab")
@@ -69,7 +69,7 @@ public class VuelingMainPage extends VuelingAbstractPage {
     @FindBy(id = "centralBilletes")
     private WebElement chooseTicketSales;
 
-    @FindBy(xpath = ".//*[@id='stationsList']/ul/li/a")
+    @FindBy(css = "#stationsList > ul > li > a")
     private WebElement clickOnNeedCity;
 
     @FindBy(id = "datePickerTitleCloseButton")
@@ -124,12 +124,32 @@ public class VuelingMainPage extends VuelingAbstractPage {
 
     public void startSearch(String from, String to) {
         //buttonReturn.click();
-        fieldFromFlight.click();
+        
         fieldFromFlight.sendKeys(from);
-        clickOnNeedCity.click();
-        fieldToFlight.click();
+        int attempts = 0;
+        while (attempts < 5) {
+            try {
+                clickOnNeedCity.click();
+                break;
+            } catch (StaleElementReferenceException e) {
+               
+            }
+            attempts++;
+        }
+
+
         fieldToFlight.sendKeys(to);
-        clickOnNeedCity.click();
+        int attempts = 0;
+        while (attempts < 5) {
+            try {
+                clickOnNeedCity.click();
+                break;
+            } catch (StaleElementReferenceException e) {
+                
+            }
+            attempts++;
+        }
+        
         List<WebElement> list = driver.findElements(By.xpath("//tbody//*[contains(@class,'ui-state-promo')]"));
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         list.get(0).click();
