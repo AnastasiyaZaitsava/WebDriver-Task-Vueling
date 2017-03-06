@@ -1,11 +1,11 @@
 package com.epam.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class VuelingMainPage extends VuelingAbstractPage {
 
     private final String BASE_URL = "http://www.vueling.com/en";
-    private HashMap<String, String> arrayPhone = new HashMap<String, String>();
+    private HashMap<String, String> arrayPhone = new HashMap <String, String> ();
 
     @FindBy(id = "openAccountButton")
     private WebElement buttonForLogin;
@@ -42,10 +42,10 @@ public class VuelingMainPage extends VuelingAbstractPage {
     @FindBy(xpath = "//span[text() = 'Multiple destinations']")
     private WebElement buttonMultipleDestinations;
 
-    @FindBy(name = "AvailabilitySearchInputXmlSearchView$TextBoxMarketOrigin1")
+    @FindBy(xpath = "//input[@id='AvailabilitySearchInputXmlSearchView_TextBoxMarketOrigin1']")
     private WebElement fieldFromFlight;
 
-    @FindBy(name = "AvailabilitySearchInputXmlSearchView$TextBoxMarketDestination1")
+    @FindBy(xpath = "//input[@id='AvailabilitySearchInputXmlSearchView_TextBoxMarketDestination1']")
     private WebElement fieldToFlight;
 
     @FindBy(id = "marketDate1_lab")
@@ -69,17 +69,24 @@ public class VuelingMainPage extends VuelingAbstractPage {
     @FindBy(id = "centralBilletes")
     private WebElement chooseTicketSales;
 
-    @FindBy(css = "#stationsList > ul > li > a")
+    @FindBy(xpath = "//*[@id='stationsList']/ul/li/a[@class = 'optionActive']")
     private WebElement clickOnNeedCity;
 
     @FindBy(id = "datePickerTitleCloseButton")
     private WebElement buttonCloseSchedule;
 
-    @FindBy(id = "footerPhoneInfoNumber")
+    @FindBy (id = "footerPhoneInfoNumber")
     private WebElement phoneNumberBilletes;
 
+    @FindBy (xpath = "//tbody/*//*[@data-handler='selectDay']")
+    private List <WebElement> selectDays;
 
-    public void login(String login, String psw) {
+    @FindBy (xpath = ".//*[@id='centralBilletes']/option")
+    private List <WebElement> selectServiceCenter;
+
+
+    public void login ( String login, String psw)
+    {
         buttonForLogin.click();
         fieldUserNameForLogin.clear();
         fieldUserNameForLogin.sendKeys(login);
@@ -88,14 +95,15 @@ public class VuelingMainPage extends VuelingAbstractPage {
         buttonLogin.click();
     }
 
-    public String checkIsLogin() {
+    public String checkIsLogin ()
+    {
         return fieldForCheckIsLogin.getText();
     }
 
-    public boolean toChangeContactInfo(String country) {
+    public boolean toChangeContactInfo (String country) {
+
         driver.findElement(By.id("centralBilletes"));
-        List<WebElement> elements = driver.findElements(By.xpath(".//*[@id='centralBilletes']/option"));
-        for (WebElement webElement : elements) {
+        for (WebElement webElement: selectServiceCenter) {
 
             if (webElement.getText().equals(country)) {
                 webElement.click();
@@ -106,7 +114,6 @@ public class VuelingMainPage extends VuelingAbstractPage {
             webElement.click();
 
             String phone = driver.findElement(By.id("footerPhoneNumberBilletes")).getText();
-
             arrayPhone.put(city, phone);
 
             for (Map.Entry<String, String> pair : arrayPhone.entrySet()) {
@@ -122,50 +129,37 @@ public class VuelingMainPage extends VuelingAbstractPage {
         return false;
     }
 
-    public void startSearch(String from, String to) {
-        //buttonReturn.click();
-        
-        fieldFromFlight.sendKeys(from);
-        int attempts = 0;
-        while (attempts < 5) {
-            try {
-                clickOnNeedCity.click();
-                break;
-            } catch (StaleElementReferenceException e) {
-               
-            }
-            attempts++;
-        }
+    public void startSearch (String from, String to) {
 
+        WebDriverWait wait = new WebDriverWait (driver, 50);
+
+        fieldFromFlight.sendKeys(from);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"stationsList\"]/ul/li/a/strong")));
+        clickOnNeedCity.click();
 
         fieldToFlight.sendKeys(to);
-        int attempts = 0;
-        while (attempts < 5) {
-            try {
-                clickOnNeedCity.click();
-                break;
-            } catch (StaleElementReferenceException e) {
-                
-            }
-            attempts++;
-        }
-        
-        List<WebElement> list = driver.findElements(By.xpath("//tbody//*[contains(@class,'ui-state-promo')]"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"stationsList\"]/ul/li/a/strong")));
+        clickOnNeedCity.click();
+
+        selectDays.get(1).click();
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        list.get(0).click();
-        List<WebElement> list1 = driver.findElements(By.xpath("//tbody//*[contains(@class,'ui-state-promo')]"));
-        list1.get(0).click();
+        selectDays.get(1).click();
+
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("arguments[0].click();", searchForFlights);
     }
 
-    public VuelingMainPage(WebDriver driver) {
+
+
+    public VuelingMainPage(WebDriver driver)
+    {
         super(driver);
         PageFactory.initElements(this.driver, this);
     }
 
-    public void openPage() {
+    public void openPage()
+    {
         driver.navigate().to(BASE_URL);
     }
 }
