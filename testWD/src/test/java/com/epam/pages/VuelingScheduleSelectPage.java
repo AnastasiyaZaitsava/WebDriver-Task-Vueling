@@ -33,9 +33,7 @@ public class VuelingScheduleSelectPage extends VuelingAbstractPage {
 
     @FindBy(id = "ControlGroupScheduleSelectView_AvailabilityInputScheduleSelectView_LinkButtonSubmit")
     private WebElement continueButton;
-    
-    @FindBy(id="SBSidebarView_totalPriceSpan")
-    private WebElement priceSpan;
+
 
     public VuelingScheduleSelectPage(WebDriver driver) {
         super(driver);
@@ -49,6 +47,7 @@ public class VuelingScheduleSelectPage extends VuelingAbstractPage {
     public boolean chooseFlight() {
         basicOutboundButton.click();
         basicReturnButton.click();
+
         driver.manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
         WebElement element = driver.findElement(By.xpath("//div[@class='travelInfo_list']"));
         if (element.isDisplayed()) {
@@ -58,17 +57,19 @@ public class VuelingScheduleSelectPage extends VuelingAbstractPage {
             return false;
         }
     }
-    
+
     public double getPrice(WebElement element){
-    	String labelID = element.getAttribute("id");
-    	String tag = element.getTagName();
-    	String price1 = driver.findElement(By.xpath("//"+ tag +"[@id='"+labelID+"']/span")).getText();
-    	price1.replace('.', ',');
-    	String price2 = driver.findElement(By.xpath("//label[@id='"+labelID+"']/span/sup")).getText();
-    	double price = Double.parseDouble(price1 + price2);
-    	return price;
+        String labelID = element.getAttribute("id");
+        String tag = element.getTagName();
+        String price1 = driver.findElement(By.xpath("//"+ tag +"[@id='"+labelID+"']/span")).getText();
+        price1.replace('.', ',');
+        String price2 = driver.findElement(By.xpath("//label[@id='"+labelID+"']/span/sup")).getText();
+        double price = Double.parseDouble(price1 + price2);
+        return price;
     }
 }
+
+
 
 
 
