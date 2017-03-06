@@ -1,6 +1,6 @@
 package com.epam;
 
-import com.epam.util.User;
+import com.epam.bean.Person;
 import com.epam.steps.Steps;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -13,6 +13,7 @@ public class TestWD
         private final String FROM = "Warsaw";
         private final String TO = "Barcelona";
         private final String USERCOUNTRY = "France";
+
 
 
         @BeforeTest(description = "Init browser")
@@ -44,8 +45,9 @@ public class TestWD
         @Test
         public void fourFillInfo ()
         {
-            steps.fillPassengerInformation(FROM, TO, User.USER1);
-            Assert.assertTrue(steps.isFillInfoCorrect(FROM, TO, User.USER1));
+            Person person = new Person("John", "Smith", "Minsk", "456783", "johnsmith@gmail.com", "BY", "+375");
+            steps.fillPassengerInformation(FROM, TO, person);
+            Assert.assertTrue(steps.isFillInfoCorrect(FROM, TO, person));
         }
 
 

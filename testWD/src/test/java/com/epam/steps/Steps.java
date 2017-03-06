@@ -1,9 +1,9 @@
 package com.epam.steps;
 
-import com.epam.util.User;
-import com.epam.pages.VuelingContactPassengerPage;
-import com.epam.pages.VuelingMainPage;
-import com.epam.pages.VuelingScheduleSelectPage;
+import com.epam.bean.Person;
+import com.epam.pages.ContactPassengerPage;
+import com.epam.pages.MainPage;
+import com.epam.pages.ScheduleSelectPage;
 import com.epam.util.DriverSingleton;
 import org.openqa.selenium.WebDriver;
 
@@ -23,56 +23,48 @@ public class Steps {
 
     public void loginToVueling (String user, String psw)
     {
-        VuelingMainPage vuelingMainPage = new VuelingMainPage(driver);
-        vuelingMainPage.openPage();
-        vuelingMainPage.login(user,psw);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.openPage();
+        mainPage.login(user,psw);
     }
 
     public boolean isLoginToVueling ()
     {
-        VuelingMainPage vuelingMainPage = new VuelingMainPage(driver);
+        MainPage vuelingMainPage = new MainPage(driver);
         return vuelingMainPage.checkIsLogin().contains("Hi");
     }
 
-    public void fillPassengerInformation(String from, String to, User user) {
-        VuelingContactPassengerPage vuelingContactPassengerPage = new VuelingContactPassengerPage(driver);
-        VuelingScheduleSelectPage vuelingScheduleSelectPage = new VuelingScheduleSelectPage(driver);
-        VuelingMainPage vuelingMainPage = new VuelingMainPage(driver);
-        vuelingMainPage.openPage();
-        vuelingMainPage.startSearch(from, to);
-        vuelingScheduleSelectPage.chooseFlight();
-        vuelingContactPassengerPage.enterAndSubmitPassengerContact(user);
+    public void fillPassengerInformation(String from, String to, Person person) {
+        ContactPassengerPage contactPassengerPage = new ContactPassengerPage(driver);
+        ScheduleSelectPage scheduleSelectPage = new ScheduleSelectPage(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.openPage();
+        mainPage.startSearch(from, to);
+        scheduleSelectPage.chooseFlight();
+        contactPassengerPage.enterAndSubmitPassengerContact(person);
     }
 
-    public boolean isChangeContactInfo (String country) {
-        VuelingMainPage vuelingMainPage = new VuelingMainPage(driver);
-        vuelingMainPage.openPage();
-        if (vuelingMainPage.toChangeContactInfo(country)) {
-            return true;
-        }
-        return false;
+    public boolean isChangeContactInfo (String country)
+    {
+        MainPage mainPage = new MainPage(driver);
+        mainPage.openPage();
+        return mainPage.toChangeContactInfo(country);
     }
 
-    public boolean checkFlight (String from, String to) {
-        VuelingMainPage vuelingMainPage = new VuelingMainPage(driver);
-        VuelingScheduleSelectPage vuelingScheduleSelectPage = new VuelingScheduleSelectPage(driver);
-        vuelingMainPage.openPage();
-        vuelingMainPage.startSearch( from,  to);
-
-        if(vuelingScheduleSelectPage.chooseFlight()){
-            return true;
-        }else {
-            return false;
-        }
+    public boolean checkFlight (String from, String to)
+    {
+        MainPage mainPage = new MainPage(driver);
+        ScheduleSelectPage vuelingScheduleSelectPage = new ScheduleSelectPage(driver);
+        mainPage.openPage();
+        mainPage.startSearch( from,  to);
+       return  vuelingScheduleSelectPage.chooseFlight();
     }
 
-    public boolean isFillInfoCorrect (String from, String to, User user) {
-        VuelingContactPassengerPage vuelingContactPassengerPage = new VuelingContactPassengerPage(driver);
-        vuelingContactPassengerPage.enterAndSubmitPassengerContact(user);
-        if(vuelingContactPassengerPage.clickSubmit()) {
-            return true;
-        }
-        return false;
+    public boolean isFillInfoCorrect (String from, String to, Person person)
+    {
+        ContactPassengerPage contactPassengerPage = new ContactPassengerPage(driver);
+        contactPassengerPage.enterAndSubmitPassengerContact(person);
+        return contactPassengerPage.clickSubmit();
     }
 
 }
