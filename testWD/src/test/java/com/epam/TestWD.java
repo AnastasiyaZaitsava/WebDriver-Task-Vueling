@@ -48,15 +48,8 @@ public class TestWD
             Assert.assertTrue(steps.isFillInfoCorrect(FROM, TO, User.USER1));
         }
 
-        @Test
-        public void fiveFillSeatAndLuggage ()
-        {
-            steps.fillSeatsAndLuggageInformation(FROM, TO, User.USER1);
-            Assert.assertTrue(steps.isFillInfoSeatAndLuggageCorrect());
-        }
 
-
-        @AfterTest(description = "Stop Browser")
+      @AfterTest(description = "Stop Browser")
         public void stopBrowser()
         {
             steps.closeDriver();
