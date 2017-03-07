@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
@@ -34,6 +36,8 @@ public class ScheduleSelectPage extends AbstractPage {
     @FindBy(id = "ControlGroupScheduleSelectView_AvailabilityInputScheduleSelectView_LinkButtonSubmit")
     private WebElement continueButton;
 
+    @FindBy(xpath = "//dl[contains(@class,'travelInfo_listHeader')]//span[contains(@class, 'wrapper_currency')]")
+    private WebElement totalPrice;
 
     public ScheduleSelectPage(WebDriver driver) {
         super(driver);
@@ -44,10 +48,10 @@ public class ScheduleSelectPage extends AbstractPage {
         driver.navigate().to(BASE_URL);
     }
 
-    public boolean chooseFlight() {
+    public boolean chooseFlightTwoWays()
+    {
         basicOutboundButton.click();
         basicReturnButton.click();
-
         driver.manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
         WebElement element = driver.findElement(By.xpath("//div[@class='travelInfo_list']"));
         if (element.isDisplayed()) {
@@ -58,15 +62,33 @@ public class ScheduleSelectPage extends AbstractPage {
         }
     }
 
-    public double getPrice(WebElement element){
+    public void chooseFlightOneWays ()
+    {
+        basicOutboundButton.click();
+    }
+
+    public double getPriceForOnePassenger(WebElement element)
+    {
         String labelID = element.getAttribute("id");
         String tag = element.getTagName();
         String price1 = driver.findElement(By.xpath("//"+ tag +"[@id='"+labelID+"']/span")).getText();
-        price1.replace('.', ',');
-        String price2 = driver.findElement(By.xpath("//label[@id='"+labelID+"']/span/sup")).getText();
-        double price = Double.parseDouble(price1 + price2);
-        return price;
+        return Double.parseDouble(price1);
     }
+
+    public double getTotalPrice ()
+    {
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//dl[contains(@class,'travelInfo_listHeader')]//span[contains(@class, 'wrapper_currency')]")));
+        String price1 = totalPrice.getText();
+        String  price = price1.substring(0,(price1.length()-4));
+        return Double.parseDouble(price);
+    }
+
+    public WebElement getWebElementTocheackPrice()
+    {
+        return basicOutboundButton;
+    }
+
 }
 
 
