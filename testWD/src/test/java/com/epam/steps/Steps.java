@@ -1,11 +1,7 @@
 package com.epam.steps;
 
 import com.epam.bean.Person;
-import com.epam.pages.ContactPassengerPage;
-import com.epam.pages.FlightsStatusPage;
-import com.epam.pages.MainPage;
-import com.epam.pages.ScheduleSelectPage;
-import com.epam.pages.InfoAndSalesOfficesPage;
+import com.epam.pages.*;
 import com.epam.util.DriverSingleton;
 import org.openqa.selenium.WebDriver;
 
@@ -37,13 +33,28 @@ public class Steps {
         return vuelingMainPage.checkIsLogin().contains("Hi");
     }
 
+    public void startWorkWithFlightsStatusPage (String flightNumber, String dateOfFlight)
+    {
+        FlightsStatusPage flightsStatusPage = new FlightsStatusPage(driver);
+        flightsStatusPage.openPage();
+        flightsStatusPage.flightsStatusForFlightNumber(flightNumber, dateOfFlight);
+    }
+
+    public void startWorkWithMainPage (String cityOfDeparture, String cityOfArrival, String dateForward)
+    {
+        MainPage mainPage = new MainPage(driver);
+        mainPage.openPage();
+        mainPage.chooseCityForLight(cityOfDeparture, cityOfArrival);
+        mainPage.chooseDateFlight(dateForward);
+    }
+
     public void fillPassengerInformation(Person person, String dateBack) {
         ContactPassengerPage contactPassengerPage = new ContactPassengerPage(driver);
         MainPage mainPage = new MainPage(driver);
         ScheduleSelectPage scheduleSelectPage = new ScheduleSelectPage(driver);
         mainPage.chooseDateFlight(dateBack);
         mainPage.clickButtonSearchFlight();
-        scheduleSelectPage.chooseFlight();
+        scheduleSelectPage.chooseFlightTwoWays();
         contactPassengerPage.enterAndSubmitPassengerContact(person);
     }
 
@@ -51,7 +62,33 @@ public class Steps {
     {
         MainPage mainPage = new MainPage(driver);
         mainPage.openPage();
-        return mainPage.toChangeContactInfo(country);
+        return mainPage.isPhoneCorrespondsToTheCountry(mainPage.toChangeContactInfo(country), country);
+    }
+
+    public double takePriceFromWebSiteFor1Passenger ()
+    {
+        ScheduleSelectPage scheduleSelectPage = new ScheduleSelectPage(driver);
+        scheduleSelectPage.chooseFlightOneWays();
+        return scheduleSelectPage.getPriceForOnePassenger(scheduleSelectPage.getWebElementTocheackPrice());
+    }
+
+    public double takeTotalPriceForAllPassenger ()
+    {
+        ScheduleSelectPage scheduleSelectPage = new ScheduleSelectPage(driver);
+        return scheduleSelectPage.getTotalPrice();
+
+    }
+
+    public void canChooseFlightOneWay (String cityOfDeparture, String cityOfArrival, String dateForward)
+    {
+        ScheduleSelectPage scheduleSelectPage = new ScheduleSelectPage(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.openPage();
+        mainPage.chooseFlightOneWay();
+        mainPage.chooseCityForLight(cityOfDeparture, cityOfArrival);
+        mainPage.chooseDateFlight(dateForward);
+        mainPage.chooseTwoPassenger();
+        mainPage.clickButtonSearchFlight();
     }
 
     public boolean checkFlight (String dateBack)
@@ -60,7 +97,7 @@ public class Steps {
         ScheduleSelectPage vuelingScheduleSelectPage = new ScheduleSelectPage(driver);
         mainPage.chooseDateFlight(dateBack);
         mainPage.clickButtonSearchFlight();
-       return  vuelingScheduleSelectPage.chooseFlight();
+       return  vuelingScheduleSelectPage.chooseFlightTwoWays();
     }
 
     public boolean isFillInfoCorrect (Person person)
@@ -94,23 +131,7 @@ public class Steps {
         FlightsStatusPage flightsStatusPage = new FlightsStatusPage(driver);
         return flightsStatusPage.takeCityArrival();
     }
-
-    public void startWorkWithFlightsStatusPage (String flightNumber, String dateOfFlight)
-    {
-        FlightsStatusPage flightsStatusPage = new FlightsStatusPage(driver);
-        flightsStatusPage.openPage();
-        flightsStatusPage.flightsStatusForFlightNumber(flightNumber, dateOfFlight);
-    }
-
-    public void startWorkWithMainPage (String cityOfDeparture, String cityOfArrival, String dateForward)
-    {
-        MainPage mainPage = new MainPage(driver);
-        mainPage.openPage();
-        mainPage.chooseCityForLight(cityOfDeparture, cityOfArrival);
-        mainPage.chooseDateFlight(dateForward);
-    }
-    
-      public boolean checkAirport(String city)
+    public boolean checkAirport(String city)
     {
         InfoAndSalesOfficesPage infoAndSalesOfficesPage = new InfoAndSalesOfficesPage(driver);
         infoAndSalesOfficesPage.openPage();
@@ -123,6 +144,6 @@ public class Steps {
         InfoAndSalesOfficesPage infoAndSalesOfficesPage = new InfoAndSalesOfficesPage(driver);
         return  infoAndSalesOfficesPage.isAirportDisplayed();
     }
-    
+
 
 }
