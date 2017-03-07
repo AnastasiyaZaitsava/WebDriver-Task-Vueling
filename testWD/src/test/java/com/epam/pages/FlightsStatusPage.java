@@ -26,16 +26,43 @@ public class FlightsStatusPage extends AbstractPage {
     private WebElement fieldToFlight;
 
     @FindBy(id = "datepicker")
-    private WebElement dateOfFlights;
+    private WebElement fieldDateOfFlights;
+
+    @FindBy(id = "flightNumber")
+    private WebElement fieldFlightNumber;
 
     @FindBy(id = "AvailabilitySearchInputXmlSearchView_LinkButtonNewSearch")
     private WebElement buttonSearch;
 
-    @FindBy(xpath = "//*[@id='stationsList']/ul/li/a[@class = 'optionActive']")
+    @FindBy(id = "AvailabilitySearchInputXmlSearchView_LinkButtonNewSearch")
+    private WebElement buttonNextMonth;
+
+    @FindBy(xpath = "//div[contains(@class, 'ui-helper-clearfix ui-corner-left')]//span[contains(@class, 'ui-datepicker-month')]")
+    private WebElement monthInCalender;
+
+    @FindBy(xpath = ".//*[@id='datePickerContainer']//a[@data-handler = 'next']")
     private WebElement clickOnNeedCity;
 
+    @FindBy(xpath = ".//*[@id='main']//div[contains(@class, 'status_tag')]")
+    private WebElement flightStatus;
 
-    public void flightsStatus (String from, String to, String date) {
+    @FindBy(xpath = ".//*[@id='main']//h3[contains(@class, 'header')]/span[contains(@class, 'floatLeft')]")
+    private WebElement dateOnCheckFlightBox;
+
+    @FindBy(xpath = ".//div[contains(@class, 'colHalf_1')]/span")
+    private WebElement checkCityDeparture;
+
+    @FindBy(xpath = ".//div[contains(@class, 'colHalf_2')]/span")
+    private WebElement checkCityArrival;
+
+    @FindBy (xpath = ".//*[@id='main']//h3[contains(@class, 'header')]/span[contains(@class, 'floatRight')]")
+    private WebElement checkNumberFlight;
+
+
+
+
+   /*public void flightsStatus (String from, String to, String date)
+    {
         WebDriverWait wait = new WebDriverWait (driver, 50);
         buttonDestination.click();
 
@@ -46,8 +73,44 @@ public class FlightsStatusPage extends AbstractPage {
         fieldFromFlight.sendKeys(to);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"stationsList\"]/ul/li/a/strong")));
         clickOnNeedCity.click();
+    }*/
+
+    public void flightsStatusForFlightNumber (String flightNumber, String dateOfFlight)
+    {
+        WebDriverWait wait = new WebDriverWait (driver, 50);
+        buttonFlightNumber.click();
+        fieldFlightNumber.sendKeys(flightNumber);
+        fieldDateOfFlights.click();
+        String [] splitDate = dateOfFlight.split("/");
+        while (!monthInCalender.getText().equals(splitDate[1]))
+        {
+            driver.findElement(By.xpath(".//*[@id='datePickerContainer']//a[@data-handler = 'next']")).click();
+        }
+
+        driver.findElement(By.xpath("//*[@id='datePickerContainer']//div[contains(@class, 'ui-datepicker-group-first')]//a[text() ='" + splitDate[0] + "']")).click();
+        driver.findElement(By.id("searchForFlightButton")).click();
     }
 
+
+    public String takeStatusFlight ()
+    {
+        return flightStatus.getText();
+    }
+
+    public String takeFlightDate ()
+    {
+        return dateOnCheckFlightBox.getText();
+    }
+
+    public String takeCityDeparture ()
+    {
+        return checkCityDeparture.getText();
+    }
+
+    public String takeCityArrival ()
+    {
+        return checkCityArrival.getText();
+    }
 
     public FlightsStatusPage (WebDriver driver)
     {

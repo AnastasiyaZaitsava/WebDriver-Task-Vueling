@@ -15,8 +15,13 @@ import java.util.concurrent.TimeUnit;
 
 public class MainPage extends AbstractPage {
 
+    public MainPage(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(this.driver, this);
+    }
+
     private final String BASE_URL = "http://www.vueling.com/en";
-    private HashMap<String, String> arrayPhone = new HashMap <String, String> ();
+    private HashMap<String, String> arrayPhone = new HashMap<String, String>();
 
     @FindBy(id = "openAccountButton")
     private WebElement buttonForLogin;
@@ -36,7 +41,7 @@ public class MainPage extends AbstractPage {
     @FindBy(xpath = "//span[text() = 'Return']")
     private WebElement buttonReturn;
 
-    @FindBy(xpath = "//span[text() = 'One way only']")
+    @FindBy(id = "AvailabilitySearchInputXmlSearchView_OneWay")
     private WebElement buttonOneWayOnly;
 
     @FindBy(xpath = "//span[text() = 'Multiple destinations']")
@@ -47,6 +52,9 @@ public class MainPage extends AbstractPage {
 
     @FindBy(xpath = "//input[@id='AvailabilitySearchInputXmlSearchView_TextBoxMarketDestination1']")
     private WebElement fieldToFlight;
+
+    @FindBy(xpath = "//div[contains(@class, 'ui-helper-clearfix ui-corner-left')]//span[contains(@class, 'ui-datepicker-month')]")
+    private WebElement monthInCalender;
 
     @FindBy(id = "marketDate1_lab")
     private WebElement dateOne;
@@ -75,18 +83,16 @@ public class MainPage extends AbstractPage {
     @FindBy(id = "datePickerTitleCloseButton")
     private WebElement buttonCloseSchedule;
 
-    @FindBy (id = "footerPhoneInfoNumber")
+    @FindBy(id = "footerPhoneInfoNumber")
     private WebElement phoneNumberBilletes;
 
-    @FindBy (xpath = "//tbody/*//*[@data-handler='selectDay']")
-    private List <WebElement> selectDays;
+    @FindBy(xpath = "//tbody/*//*[@data-handler='selectDay']")
+    private List<WebElement> selectDays;
 
-    @FindBy (xpath = ".//*[@id='centralBilletes']/option")
-    private List <WebElement> selectServiceCenter;
+    @FindBy(xpath = ".//*[@id='centralBilletes']/option")
+    private List<WebElement> selectServiceCenter;
 
-
-    public void login ( String login, String psw)
-    {
+    public void login(String login, String psw) {
         buttonForLogin.click();
         fieldUserNameForLogin.clear();
         fieldUserNameForLogin.sendKeys(login);
@@ -95,15 +101,14 @@ public class MainPage extends AbstractPage {
         buttonLogin.click();
     }
 
-    public String checkIsLogin ()
-    {
+    public String checkIsLogin() {
         return fieldForCheckIsLogin.getText();
     }
 
-    public boolean toChangeContactInfo (String country) {
+    public boolean toChangeContactInfo(String country) {
 
         driver.findElement(By.id("centralBilletes"));
-        for (WebElement webElement: selectServiceCenter) {
+        for (WebElement webElement : selectServiceCenter) {
 
             if (webElement.getText().equals(country)) {
                 webElement.click();
@@ -129,39 +134,46 @@ public class MainPage extends AbstractPage {
         return false;
     }
 
-    public void startSearch (String from, String to) {
+    public void chooseFlightOneWay() {
+        buttonOneWayOnly.click();
+    }
 
-        WebDriverWait wait = new WebDriverWait (driver, 50);
-
-        fieldFromFlight.sendKeys(from);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"stationsList\"]/ul/li/a/strong")));
-        clickOnNeedCity.click();
-
-        fieldToFlight.sendKeys(to);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"stationsList\"]/ul/li/a/strong")));
-        clickOnNeedCity.click();
-
-        selectDays.get(1).click();
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        selectDays.get(1).click();
-
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+    public void clickButtonSearchFlight() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("arguments[0].click();", searchForFlights);
     }
 
-
-
-    public MainPage(WebDriver driver)
+    public void chooseCityForLight(String cityOfDeparture, String cityOfArrival)
     {
-        super(driver);
-        PageFactory.initElements(this.driver, this);
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        fieldFromFlight.sendKeys(cityOfDeparture);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"stationsList\"]/ul/li/a/strong")));
+        clickOnNeedCity.click();
+
+        fieldToFlight.sendKeys(cityOfArrival);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"stationsList\"]/ul/li/a/strong")));
+        clickOnNeedCity.click();
     }
 
-    public void openPage()
-    {
+    public void chooseDateFlight(String dateOfFlight) {
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        String[] splitDate = dateOfFlight.split("/");
+        while (!monthInCalender.getText().equals(splitDate[1])) {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='datePickerContainer']//a[@data-handler = 'next']")));
+            driver.findElement(By.xpath(".//*[@id='datePickerContainer']//a[@data-handler = 'next']")).click();
+
+        }
+        driver.findElement(By.xpath("//*[@id='datePickerContainer']//div[contains(@class, 'ui-datepicker-group-first')]//a[text() ='" + splitDate[0] + "']")).click();
+    }
+
+    public void openPage() {
         driver.navigate().to(BASE_URL);
     }
+
 }
+
+
+
+
 
 

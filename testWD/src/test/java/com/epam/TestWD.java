@@ -8,12 +8,15 @@ import org.testng.annotations.*;
 public class TestWD
     {
         private Steps steps;
-        private final String USERNAME = "mashkevich.nastya@mail.ru";
+        private final String LOGIN = "mashkevich.nastya@mail.ru";
         private final String PASSWORD = "wertyu1";
-        private final String FROM = "Warsaw";
-        private final String TO = "Barcelona";
-        private final String USERCOUNTRY = "France";
-
+        private final String CITYOFDEPARTURE = "Warsaw";
+        private final String CITYOFARRIVLE = "Barcelona";
+        private final String SERVICECOUNTRY = "France";
+        private final String DATEOFFLIGHT = "5/April";
+        private final String DATEFORWARD = "2/April";
+        private final String DATEBACK = "14/April";
+        private final String FLIGHTNUMBER = "8845";
 
 
         @BeforeTest(description = "Init browser")
@@ -26,30 +29,41 @@ public class TestWD
         @Test
         public void oneCanLoginGithub()
         {
-            steps.loginToVueling(USERNAME, PASSWORD);
+            steps.loginToVueling(LOGIN, PASSWORD);
             Assert.assertTrue(steps.isLoginToVueling());
         }
 
         @Test
-        public void twoCanChooseServiceCenter ()
+        public void oneCanChooseServiceCenter ()
         {
-            Assert.assertTrue(steps.isChangeContactInfo(USERCOUNTRY));
+            Assert.assertTrue(steps.isChangeContactInfo(SERVICECOUNTRY));
         }
 
         @Test
-        public void treeCanSearch ()
+        public void oneCanSearchFlight ()
         {
-            Assert.assertTrue(steps.checkFlight(FROM, TO));
+            steps.startWorkWithMainPage(CITYOFDEPARTURE, CITYOFARRIVLE, DATEFORWARD);
+            Assert.assertTrue(steps.checkFlight(DATEBACK));
         }
 
         @Test
-        public void fourFillInfo ()
+        public void oneCanFillInfoAboutPassenger ()
         {
             Person person = new Person("John", "Smith", "Minsk", "456783", "johnsmith@gmail.com", "BY", "+375");
-            steps.fillPassengerInformation(FROM, TO, person);
-            Assert.assertTrue(steps.isFillInfoCorrect(FROM, TO, person));
+            steps.startWorkWithMainPage(CITYOFDEPARTURE, CITYOFARRIVLE, DATEFORWARD);
+            steps.fillPassengerInformation(person,DATEBACK);
+            Assert.assertTrue(steps.isFillInfoCorrect(person));
         }
 
+        @Test
+        public void oneCanCheckStatusFlight ()
+        {
+            steps.startWorkWithFlightsStatusPage(FLIGHTNUMBER, DATEOFFLIGHT);
+            Assert.assertEquals(steps.checkFlightStatus(),("Not operating"));
+            Assert.assertEquals(steps.checkDateFlight(), DATEOFFLIGHT);
+            Assert.assertEquals(steps.checkCityDeparture (), CITYOFDEPARTURE);
+            Assert.assertEquals(steps.checkCityArrival (), CITYOFARRIVLE);
+        }
 
       @AfterTest(description = "Stop Browser")
         public void stopBrowser()
