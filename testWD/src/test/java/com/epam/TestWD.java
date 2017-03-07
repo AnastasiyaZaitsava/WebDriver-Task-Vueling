@@ -17,6 +17,7 @@ public class TestWD
         private final String DATEFORWARD = "2/April";
         private final String DATEBACK = "14/April";
         private final String FLIGHTNUMBER = "8845";
+        private final String CITY = "Madrid";
 
 
         @BeforeTest(description = "Init browser")
@@ -64,6 +65,14 @@ public class TestWD
             Assert.assertEquals(steps.checkCityDeparture (), CITYOFDEPARTURE);
             Assert.assertEquals(steps.checkCityArrival (), CITYOFARRIVLE);
         }
+    
+        @Test
+        public void canFindAirport()
+        {
+            steps.checkAirport(CITY);
+            Assert.assertTrue(steps.isAirportFound());
+        }
+
 
       @AfterTest(description = "Stop Browser")
         public void stopBrowser()
