@@ -21,7 +21,6 @@ public class MainPage extends AbstractPage {
     }
 
     private final String BASE_URL = "http://www.vueling.com/en";
-    private HashMap<String, String> arrayPhone = new HashMap<String, String>();
 
     @FindBy(id = "openAccountButton")
     private WebElement buttonForLogin;
@@ -41,7 +40,7 @@ public class MainPage extends AbstractPage {
     @FindBy(xpath = "//span[text() = 'Return']")
     private WebElement buttonReturn;
 
-    @FindBy(id = "AvailabilitySearchInputXmlSearchView_OneWay")
+    @FindBy(xpath = ".//input[@id='AvailabilitySearchInputXmlSearchView_OneWay']")
     private WebElement buttonOneWayOnly;
 
     @FindBy(xpath = "//span[text() = 'Multiple destinations']")
@@ -86,8 +85,8 @@ public class MainPage extends AbstractPage {
     @FindBy(id = "footerPhoneInfoNumber")
     private WebElement phoneNumberBilletes;
 
-    @FindBy(xpath = "//tbody/*//*[@data-handler='selectDay']")
-    private List<WebElement> selectDays;
+//    @FindBy(xpath = "//tbody/*//*[@data-handler='selectDay']")
+//    private List<WebElement> selectDays;
 
     @FindBy(xpath = ".//*[@id='centralBilletes']/option")
     private List<WebElement> selectServiceCenter;
@@ -105,37 +104,53 @@ public class MainPage extends AbstractPage {
         return fieldForCheckIsLogin.getText();
     }
 
-    public boolean toChangeContactInfo(String country) {
-
+    public String toChangeContactInfo (String country)
+    {
         driver.findElement(By.id("centralBilletes"));
         for (WebElement webElement : selectServiceCenter) {
-
             if (webElement.getText().equals(country)) {
                 webElement.click();
-                driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+                return driver.findElement(By.id("footerPhoneNumberBilletes")).getText();
             }
+        }
+        return null;
+    }
 
+    public boolean isPhoneCorrespondsToTheCountry (String phone, String country)
+    {
+        HashMap<String, String> arrayPhone = new HashMap<String, String>();
+        for (WebElement webElement : selectServiceCenter) {
             String city = webElement.getText();
             webElement.click();
-
-            String phone = driver.findElement(By.id("footerPhoneNumberBilletes")).getText();
-            arrayPhone.put(city, phone);
+            String phoneNumber = driver.findElement(By.id("footerPhoneNumberBilletes")).getText();
+            arrayPhone.put(city, phoneNumber);
 
             for (Map.Entry<String, String> pair : arrayPhone.entrySet()) {
-                if (pair.getKey().equals(country)) {
-                    String phn = pair.getValue();
-
-                    if (phone.equals(phn)) {
-                        return true;
-                    }
+                if (pair.getKey().equals(country) && pair.getValue().equals(phone)) {
+                    return true;
                 }
             }
         }
         return false;
     }
 
-    public void chooseFlightOneWay() {
-        buttonOneWayOnly.click();
+    public void chooseFlightOneWay()
+    {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("arguments[0].click();", buttonOneWayOnly);
+    }
+
+    public void chooseFlightReturn()
+    {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("arguments[0].click();", buttonReturn);
+    }
+
+    public void chooseTwoPassenger ()
+    {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("arguments[0].click();", twoPasengers);
+        //twoPasengers.click();
     }
 
     public void clickButtonSearchFlight() {
