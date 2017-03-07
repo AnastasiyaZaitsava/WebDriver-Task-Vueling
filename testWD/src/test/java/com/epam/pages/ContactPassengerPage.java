@@ -1,6 +1,8 @@
 package com.epam.pages;
 
 import com.epam.bean.Person;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
@@ -98,8 +100,9 @@ public class ContactPassengerPage extends AbstractPage  {
 
         public boolean clickSubmit () {
             if(contactLinkButtonSubmit.isDisplayed()) {
-            contactLinkButtonSubmit.click();
-            return true;
+                JavascriptExecutor jse = (JavascriptExecutor) driver;
+                jse.executeScript("arguments[0].click();", contactLinkButtonSubmit);
+                return true;
             } else {
                 return false;
             }
