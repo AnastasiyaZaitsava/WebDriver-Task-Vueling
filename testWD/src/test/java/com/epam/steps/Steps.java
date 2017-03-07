@@ -44,6 +44,7 @@ public class Steps {
     {
         MainPage mainPage = new MainPage(driver);
         mainPage.openPage();
+        mainPage.chooseFlightReturn();
         mainPage.chooseCityForLight(cityOfDeparture, cityOfArrival);
         mainPage.chooseDateFlight(dateForward);
     }
