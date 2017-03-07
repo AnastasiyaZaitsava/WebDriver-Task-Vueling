@@ -17,8 +17,8 @@ public class TestWD
         private final String DATEFORWARD = "2/April";
         private final String DATEBACK = "14/April";
         private final String FLIGHTNUMBER = "8845";
+        private final int NUMBEROFPESENGER = 2;
         private final String CITY = "Madrid";
-
 
         @BeforeTest(description = "Init browser")
         public void setUp()
@@ -65,7 +65,14 @@ public class TestWD
             Assert.assertEquals(steps.checkCityDeparture (), CITYOFDEPARTURE);
             Assert.assertEquals(steps.checkCityArrival (), CITYOFARRIVLE);
         }
-    
+
+        @Test
+        public void oneCanCheckWrightPriceForTwoPassenger ()
+        {
+            steps.canChooseFlightOneWay(CITYOFDEPARTURE, CITYOFARRIVLE, DATEFORWARD);
+            Assert.assertEquals((steps.takePriceFromWebSiteFor1Passenger()*NUMBEROFPESENGER),steps.takeTotalPriceForAllPassenger());
+        }
+
         @Test
         public void canFindAirport()
         {
@@ -73,11 +80,10 @@ public class TestWD
             Assert.assertTrue(steps.isAirportFound());
         }
 
-
-      @AfterTest(description = "Stop Browser")
-        public void stopBrowser()
-        {
-            steps.closeDriver();
-        }
+        @AfterTest(description = "Stop Browser")
+         public void stopBrowser()
+         {
+             steps.closeDriver();
+         }
 
     }
