@@ -5,6 +5,7 @@ import com.epam.pages.ContactPassengerPage;
 import com.epam.pages.FlightsStatusPage;
 import com.epam.pages.MainPage;
 import com.epam.pages.ScheduleSelectPage;
+import com.epam.pages.InfoAndSalesOfficesPage;
 import com.epam.util.DriverSingleton;
 import org.openqa.selenium.WebDriver;
 
