@@ -108,5 +108,20 @@ public class Steps {
         mainPage.chooseCityForLight(cityOfDeparture, cityOfArrival);
         mainPage.chooseDateFlight(dateForward);
     }
+    
+      public boolean checkAirport(String city)
+    {
+        InfoAndSalesOfficesPage infoAndSalesOfficesPage = new InfoAndSalesOfficesPage(driver);
+        infoAndSalesOfficesPage.openPage();
+        infoAndSalesOfficesPage.getToInfoAndSalesOfficesPage();
+        return infoAndSalesOfficesPage.chooseCity(city);
+    }
+
+    public boolean isAirportFound()
+    {
+        InfoAndSalesOfficesPage infoAndSalesOfficesPage = new InfoAndSalesOfficesPage(driver);
+        return  infoAndSalesOfficesPage.isAirportDisplayed();
+    }
+    
 
 }
