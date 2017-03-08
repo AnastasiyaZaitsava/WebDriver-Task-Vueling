@@ -84,7 +84,7 @@ public class ScheduleSelectPage extends AbstractPage {
         return Double.parseDouble(price);
     }
 
-    public WebElement getWebElementTocheackPrice()
+    public WebElement getWebElementToCheckPrice()
     {
         return basicOutboundButton;
     }
