@@ -104,8 +104,7 @@ public class MainPage extends AbstractPage {
         return fieldForCheckIsLogin.getText();
     }
 
-    public String toChangeContactInfo (String country)
-    {
+    public String toChangeContactInfo(String country) {
         driver.findElement(By.id("centralBilletes"));
         for (WebElement webElement : selectServiceCenter) {
             if (webElement.getText().equals(country)) {
@@ -116,8 +115,7 @@ public class MainPage extends AbstractPage {
         return null;
     }
 
-    public boolean isPhoneCorrespondsToTheCountry (String phone, String country)
-    {
+    public boolean isPhoneCorrespondsToTheCountry(String phone, String country) {
         HashMap<String, String> arrayPhone = new HashMap<String, String>();
         for (WebElement webElement : selectServiceCenter) {
             String city = webElement.getText();
@@ -134,20 +132,17 @@ public class MainPage extends AbstractPage {
         return false;
     }
 
-    public void chooseFlightOneWay()
-    {
+    public void chooseFlightOneWay() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("arguments[0].click();", buttonOneWayOnly);
     }
 
-    public void chooseFlightReturn()
-    {
+    public void chooseFlightReturn() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("arguments[0].click();", buttonReturn);
     }
 
-    public void chooseTwoPassenger ()
-    {
+    public void chooseTwoPassenger() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("arguments[0].click();", twoPasengers);
         //twoPasengers.click();
@@ -158,8 +153,7 @@ public class MainPage extends AbstractPage {
         jse.executeScript("arguments[0].click();", searchForFlights);
     }
 
-    public void chooseCityForLight(String cityOfDeparture, String cityOfArrival)
-    {
+    public void chooseCityForLight(String cityOfDeparture, String cityOfArrival) {
         WebDriverWait wait = new WebDriverWait(driver, 50);
         fieldFromFlight.sendKeys(cityOfDeparture);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"stationsList\"]/ul/li/a/strong")));
