@@ -142,10 +142,10 @@ public class Steps {
         mainPage.chooseDateFlight(dateBack);
         mainPage.clickButtonSearchFlight();
         
-     public boolean enterHotelParameters() {
+     public boolean enterHotelParameters(String country) {
         HotelPage hotelPage = new HotelPage(driver);
         hotelPage.openPage();
-        hotelPage.fillInfo();
+        hotelPage.inputHotelParameters(country);
         return hotelPage.clickSubmit();
     }
         
