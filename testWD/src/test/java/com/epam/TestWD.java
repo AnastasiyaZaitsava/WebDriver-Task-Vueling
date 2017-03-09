@@ -49,7 +49,7 @@ public class TestWD {
  
     @Test
     public void oneCanFindHotels()  {
-        Assert.assertTrue(steps.enterHotelParameters());
+        Assert.assertTrue(steps.enterHotelParameters(CITYOFARRIVLE));
         Assert.assertTrue(steps.isHotelsFound());
    }
     @Test
