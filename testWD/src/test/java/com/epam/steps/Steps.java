@@ -136,7 +136,23 @@ public class Steps {
         SeatAndLuggagePage seatAndLuggagePage = new SeatAndLuggagePage(driver);
         mainPage.chooseDateFlight(dateBack);
         mainPage.clickButtonSearchFlight();
-        scheduleSelectPage.chooseFlightTwoWays();
+        
+     public boolean enterHotelParameters() {
+        HotelPage hotelPage = new HotelPage(driver);
+        hotelPage.openPage();
+        hotelPage.fillInfo();
+        return hotelPage.clickSubmit();
+    }
+        
+    public boolean isHotelsFound() {
+    	WebElement pageTitle = driver.findElement(By.className("sr_header"));
+    	if(pageTitle.getText().contains("properties found")){
+                return true;
+    	}
+    	else
+    		return false;
+    
+    }        scheduleSelectPage.chooseFlightTwoWays();
         contactPassengerPage.enterAndSubmitPassengerContact(person);
         contactPassengerPage.clickSubmit();
         seatAndLuggagePage.addLuggageToTicket();
