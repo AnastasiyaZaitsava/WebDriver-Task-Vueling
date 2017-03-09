@@ -158,7 +158,6 @@ public class Steps {
 
     }
 
-
     public double takeTotalPriceForPassengerWithSeats() {
         SeatAndLuggagePage seatAndLuggagePage = new SeatAndLuggagePage(driver);
         return seatAndLuggagePage.getTotalPriceForSeats();
@@ -174,10 +173,28 @@ public class Steps {
         return seatAndLuggagePage.getPriceForLuggage();
     }
 
-
     public double takePriceForPassengerWithLuggageFromTable() {
         SeatAndLuggagePage seatAndLuggagePage = new SeatAndLuggagePage(driver);
         return seatAndLuggagePage.getPriceForLuggageFromTable();
+    }
+    
+        public void startWorkWithFlightsStatusPageWithDestinations (String from, String to,  String date)
+    {
+        FlightsStatusPage flightsStatusPage = new FlightsStatusPage(driver);
+        flightsStatusPage.openPage();
+        flightsStatusPage.flightsStatusForDestinations(from, to, date);
+    }
+
+    public boolean severalFlightsTableDisplayed()
+    {
+        FlightsStatusPage flightsStatusPage = new FlightsStatusPage(driver);
+        return flightsStatusPage.severalFlightsTableDisplayed();
+    }
+
+    public boolean correctMultipleFlightsInfoDisplayed(String from, String to, String date)
+    {
+        FlightsStatusPage flightsStatusPage = new FlightsStatusPage(driver);
+        return flightsStatusPage.correctMultipleFlightsInfoDisplayed(from,to,date);
     }
 
 }
