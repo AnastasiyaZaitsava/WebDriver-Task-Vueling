@@ -71,6 +71,11 @@ public class Steps {
 
     }
 
+     public double takeBookingFee() {
+    	 ScheduleSelectPage scheduleSelectPage = new ScheduleSelectPage(driver);
+         return scheduleSelectPage.getFee();
+    }
+    
     public void canChooseFlightOneWay(String cityOfDeparture, String cityOfArrival, String dateForward) {
         ScheduleSelectPage scheduleSelectPage = new ScheduleSelectPage(driver);
         MainPage mainPage = new MainPage(driver);
