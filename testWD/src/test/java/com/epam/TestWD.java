@@ -70,11 +70,11 @@ public class TestWD {
     }
 
     @Test
-    public void oneCanCheckWrightPriceForTwoPassenger() {
+    public void oneCanCheckRightPriceForTwoPassengers() {
         steps.canChooseFlightOneWay(CITYOFDEPARTURE, CITYOFARRIVLE, DATEFORWARD);
-        Assert.assertEquals((steps.takePriceFromWebSiteFor1Passenger() * NUMBEROFPESENGER), steps.takeTotalPriceForAllPassenger());
+        Assert.assertEquals(((steps.takePriceFromWebSiteFor1Passenger() * NUMBEROFPESENGER)+steps.takeBookingFee()), steps.takeTotalPriceForAllPassenger());
     }
-
+    
     @Test
     public void canFindAirport() {
         steps.checkAirport(CITY);
