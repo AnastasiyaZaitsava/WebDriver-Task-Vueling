@@ -13,6 +13,7 @@ public class TestWD {
     private final String CITYOFDEPARTURE = "Warsaw";
     private final String CITYOFARRIVLE = "Barcelona";
     private final String SERVICECOUNTRY = "France";
+    private final String FULLFORMATFLIGHTDATE = "05/04/2017";
     private final String DATEOFFLIGHT = "5/April";
     private final String DATEFORWARD = "2/April";
     private final String DATEBACK = "14/April";
@@ -89,6 +90,22 @@ public class TestWD {
         Assert.assertEquals(steps.takeTotalPriceForPassengerWithSeats()/FLIGHTWITHRETURN, steps.takePriceForPassengerWithSeatsFromTable());
 
     }
+    
+            @Test
+        public void oneCanCheckStatusFlightByDestinations()
+        {
+            steps.startWorkWithFlightsStatusPageWithDestinations(CITYOFDEPARTURE, CITYOFARRIVLE, DATEOFFLIGHT);
+            if(steps.severalFlightsTableDisplayed())
+            {
+                Assert.assertTrue(steps.correctMultipleFlightsInfoDisplayed(CITYOFDEPARTURE,CITYOFARRIVLE,FULLFORMATFLIGHTDATE));
+            }
+            else{
+                Assert.assertEquals(steps.checkFlightStatus(),("Not operating"));
+                Assert.assertEquals(steps.checkDateFlight(), DATEOFFLIGHT);
+                Assert.assertEquals(steps.checkCityDeparture (), CITYOFDEPARTURE);
+                Assert.assertEquals(steps.checkCityArrival (), CITYOFARRIVLE);
+            }
+        }
 
     @AfterTest(description = "Stop Browser")
     public void stopBrowser() {
