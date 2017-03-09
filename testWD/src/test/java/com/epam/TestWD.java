@@ -16,6 +16,7 @@ public class TestWD {
     private final String FULLFORMATFLIGHTDATE = "05/04/2017";
     private final String DATEOFFLIGHT = "5/April";
     private final String DATEFORWARD = "2/April";
+  
     private final String DATEBACK = "14/April";
     private final String FLIGHTNUMBER = "8845";
     private final int NUMBEROFPESENGER = 2;
@@ -26,6 +27,7 @@ public class TestWD {
     public void setUp() {
         steps = new Steps();
         steps.initBrowser();
+
     }
 
     @Test
@@ -36,7 +38,7 @@ public class TestWD {
 
     @Test
     public void oneCanChooseServiceCenter() {
-        Assert.assertTrue(steps.isChangeContactInfo(SERVICECOUNTRY));
+            Assert.assertTrue(steps.isChangeContactInfo(SERVICECOUNTRY));
     }
 
     @Test
@@ -44,7 +46,12 @@ public class TestWD {
         steps.startWorkWithMainPage(CITYOFDEPARTURE, CITYOFARRIVLE, DATEFORWARD);
         Assert.assertTrue(steps.checkFlight(DATEBACK));
     }
-
+ 
+    @Test
+    public void oneCanFindHotels()  {
+        Assert.assertTrue(steps.enterHotelParameters());
+        Assert.assertTrue(steps.isHotelsFound());
+   }
     @Test
     public void oneCanFillInfoAboutPassenger() {
         Person person = new Person("John", "Smith", "Minsk", "456783", "johnsmith@gmail.com", "BY", "+375");
