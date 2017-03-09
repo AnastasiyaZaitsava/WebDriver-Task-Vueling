@@ -36,8 +36,8 @@ public class HotelPage extends AbstractPage{
 	@FindBy(xpath = "*//button[@type='submit']")
 	private WebElement submitButton;
 	
-	public void fillInfo(){
-		 inputDest.sendKeys("Minsk");
+	public void inputHotelParameters(String country){
+		 inputDest.sendKeys(country);
 		 checkinDateBox.click();
 		 checkinDate.click();
 		 checkoutDateBox.click();
