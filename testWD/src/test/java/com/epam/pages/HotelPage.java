@@ -33,6 +33,9 @@ public class HotelPage extends AbstractPage{
 	@FindBy(xpath = "//td[@class='c2-day ']")
 	private WebElement checkinDate;
 	
+	@FindBy(xpath = "//input[@name = 'travel_type' and @value = '1']")
+	private WebElement arrivingByAirplaneButton;
+	
 	@FindBy(xpath = "*//button[@type='submit']")
 	private WebElement submitButton;
 	
@@ -40,6 +43,7 @@ public class HotelPage extends AbstractPage{
 		 inputDest.sendKeys(country);
 		 checkinDateBox.click();
 		 checkinDate.click();
+		 arrivingByAirplaneButton.click();
 		 checkoutDateBox.click();
 	}
 	
