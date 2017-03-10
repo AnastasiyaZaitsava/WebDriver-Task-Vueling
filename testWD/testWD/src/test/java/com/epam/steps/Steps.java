@@ -245,4 +245,15 @@ public class Steps {
         HotelPage hotelPage = new HotelPage(driver);
         return (hotelPage.getPageTitle().contains("properties found"));
     }
+
+    public void enterCarParameters(String city) {
+        CarPage carPage = new CarPage(driver);
+        carPage.openPage();
+        carPage.inputCarParameters(city);
+    }
+
+    public boolean isMapWithCarOffersDispaly() {
+        CarPage carPage = new CarPage(driver);
+        return carPage.isMapDisplay();
+    }
 }

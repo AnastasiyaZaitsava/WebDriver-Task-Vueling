@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class HotelPage extends AbstractPage{
+public class HotelPage extends AbstractPage {
     private final String BASE_URL = "http://hotel.vueling.com/?label=vlng-tab-home&lang=en";
 
     public HotelPage(WebDriver driver) {
@@ -15,8 +15,7 @@ public class HotelPage extends AbstractPage{
     }
 
     @Override
-    public void openPage()
-    {
+    public void openPage() {
         driver.navigate().to(BASE_URL);
     }
 
@@ -42,7 +41,7 @@ public class HotelPage extends AbstractPage{
     @FindBy(className = "sr_header")
     private WebElement pageTitle;
 
-    public void inputHotelParameters(String country){
+    public void inputHotelParameters(String country) {
         inputDest.sendKeys(country);
         checkinDateBox.click();
         checkinDate.click();
@@ -50,8 +49,8 @@ public class HotelPage extends AbstractPage{
         checkoutDateBox.click();
     }
 
-    public boolean clickSubmit () {
-        if(submitButton.isDisplayed()) {
+    public boolean clickSubmit() {
+        if (submitButton.isDisplayed()) {
             JavascriptExecutor jse = (JavascriptExecutor) driver;
             jse.executeScript("arguments[0].click();", submitButton);
             return true;
@@ -60,7 +59,7 @@ public class HotelPage extends AbstractPage{
         }
     }
 
-    public String getPageTitle () {
+    public String getPageTitle() {
         return pageTitle.getText();
     }
 }
