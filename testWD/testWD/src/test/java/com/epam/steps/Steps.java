@@ -2,7 +2,7 @@ package com.epam.steps;
 
 import com.epam.bean.Person;
 import com.epam.pages.*;
-import com.epam.util.DriverSingleton;
+import com.epam.driver.DriverSingleton;
 import org.openqa.selenium.WebDriver;
 
 

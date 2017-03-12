@@ -1,5 +1,6 @@
 package com.epam.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,11 +8,13 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.List;
+
 
 public class SeatAndLuggagePage extends AbstractPage {
 
     private final static String BASE_URL = "http://www.vueling.com/en";
-    private final static String PARAMFORJAVASCRIPT = "arguments[0].click();";
+    private final static String PARAM_FOR_JAVASCRIPT = "arguments[0].click();";
 
     @FindBy(xpath = "//div[contains(@class, 'module_baggage_passengers')]//a[@data-object='btnBaggageAdd']")
     private WebElement addLuggageButton;
@@ -29,7 +32,7 @@ public class SeatAndLuggagePage extends AbstractPage {
     @FindBy(id = "seat_0_2A")
     private WebElement chooseConcreteSeatTo;
 
-    @FindBy(xpath = ".//*[@id='seat_0_3B']")
+    @FindBy(id = "seat_0_3B")
     private WebElement chooseConcreteSeatBack;
 
     @FindBy(xpath = "//*[@id=\"SBSidebarView_totalPriceSpan\"]")
@@ -53,7 +56,6 @@ public class SeatAndLuggagePage extends AbstractPage {
         PageFactory.initElements(this.driver, this);
     }
 
-
     public void openPage() {
         driver.navigate().to(BASE_URL);
     }
@@ -67,16 +69,12 @@ public class SeatAndLuggagePage extends AbstractPage {
     public void addSeatToTicket() throws InterruptedException {
         chooseSeat.click();
         JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript(PARAMFORJAVASCRIPT, chooseConcreteSeatTo);
+        jse.executeScript(PARAM_FOR_JAVASCRIPT, chooseConcreteSeatTo);
 
-//        List<WebElement> elements = driver.findElements(By.xpath(".//*[@id='seat_0_3B']"));
-//        elements.get(1).click();
+        //Thread.sleep(1000);
+        List<WebElement> elements = driver.findElements(By.id("seat_0_3B"));
+        elements.get(1).click();
 
-    }
-
-
-    public boolean isLuggageInsurance() {
-        return luggageInsuranceBlock.isDisplayed();
     }
 
     public double getTotalPriceForSeats() {

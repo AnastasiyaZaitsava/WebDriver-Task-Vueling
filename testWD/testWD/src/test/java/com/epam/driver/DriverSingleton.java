@@ -1,4 +1,4 @@
-package com.epam.util;
+package com.epam.driver;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;

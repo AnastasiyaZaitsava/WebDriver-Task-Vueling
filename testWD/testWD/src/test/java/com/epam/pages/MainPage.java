@@ -8,15 +8,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPage extends AbstractPage {
 
-    public MainPage(WebDriver driver) {
-        super(driver);
-        PageFactory.initElements(this.driver, this);
-    }
 
     private final static String BASE_URL = "http://www.vueling.com/en";
-    private final static String PATHTOSTATIONLIST = "//*[@id=\"stationsList\"]/ul/li/a/strong";
-    private final static String  PATHTOBUTTONNEXTINCALENDER = ".//*[@id='datePickerContainer']//a[@data-handler = 'next']";
-    private final static String PARAMFORJAVASCRIPT = "arguments[0].click();";
+    private final static String PATH_TO_STATION_LIST = "//*[@id=\"stationsList\"]/ul/li/a/strong";
+    private final static String PATH_TO_BUTTON_NEXT_IN_CALENDER = ".//*[@id='datePickerContainer']//a[@data-handler = 'next']";
+    private final static String PARAM_FOR_JAVASCRIPT = "arguments[0].click();";
 
     @FindBy(id = "openAccountButton")
     private WebElement buttonForLogin;
@@ -60,13 +56,16 @@ public class MainPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='stationsList']/ul/li/a[@class = 'optionActive']")
     private WebElement clickOnNeedCity;
 
-    public void openPage()
-    {
+    public MainPage(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(this.driver, this);
+    }
+
+    public void openPage() {
         driver.navigate().to(BASE_URL);
     }
 
-    public MainPage login(String login, String psw)
-    {
+    public MainPage login(String login, String psw) {
         buttonForLogin.click();
         fieldUserNameForLogin.clear();
         fieldUserNameForLogin.sendKeys(login);
@@ -76,55 +75,48 @@ public class MainPage extends AbstractPage {
         return this;
     }
 
-    public String checkIsLogin()
-    {
+    public String checkIsLogin() {
         return fieldForCheckIsLogin.getText();
     }
 
-    public void chooseFlightOneWay()
-    {
+    public void chooseFlightOneWay() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript(PARAMFORJAVASCRIPT, buttonOneWayOnly);
+        jse.executeScript(PARAM_FOR_JAVASCRIPT, buttonOneWayOnly);
     }
 
-    public void chooseFlightReturn()
-    {
+    public void chooseFlightReturn() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript(PARAMFORJAVASCRIPT, buttonReturn);
+        jse.executeScript(PARAM_FOR_JAVASCRIPT, buttonReturn);
     }
 
-    public void chooseTwoPassenger ()
-    {
+    public void chooseTwoPassenger() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript(PARAMFORJAVASCRIPT, twoPasengers);
+        jse.executeScript(PARAM_FOR_JAVASCRIPT, twoPasengers);
         //twoPasengers.click();
     }
 
-    public void clickButtonSearchFlight()
-    {
+    public void clickButtonSearchFlight() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript(PARAMFORJAVASCRIPT, searchForFlights);
+        jse.executeScript(PARAM_FOR_JAVASCRIPT, searchForFlights);
     }
 
-    public void chooseCityForLight(String cityOfDeparture, String cityOfArrival)
-    {
+    public void chooseCityForLight(String cityOfDeparture, String cityOfArrival) {
         WebDriverWait wait = new WebDriverWait(driver, 50);
         fieldFromFlight.sendKeys(cityOfDeparture);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(PATHTOSTATIONLIST)));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(PATH_TO_STATION_LIST)));
         clickOnNeedCity.click();
 
         fieldToFlight.sendKeys(cityOfArrival);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(PATHTOSTATIONLIST)));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(PATH_TO_STATION_LIST)));
         clickOnNeedCity.click();
     }
 
-    public void chooseDateFlight(String dateOfFlight)
-    {
+    public void chooseDateFlight(String dateOfFlight) {
         WebDriverWait wait = new WebDriverWait(driver, 50);
         String[] splitDate = dateOfFlight.split("/");
         while (!monthInCalender.getText().equals(splitDate[1])) {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(PATHTOBUTTONNEXTINCALENDER)));
-            driver.findElement(By.xpath(PATHTOBUTTONNEXTINCALENDER)).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(PATH_TO_BUTTON_NEXT_IN_CALENDER)));
+            driver.findElement(By.xpath(PATH_TO_BUTTON_NEXT_IN_CALENDER)).click();
         }
         driver.findElement(By.xpath("//*[@id='datePickerContainer']//div[contains(@class, 'ui-datepicker-group-first')]//a[text() ='" + splitDate[0] + "']")).click();
     }
